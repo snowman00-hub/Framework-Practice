@@ -7,13 +7,12 @@ std::list<sf::Keyboard::Key> InputMgr::upKeys;
 
 void InputMgr::init()
 {
-	downKeys.clear();
-	upKeys.clear();
 }
 
 void InputMgr::clear()
 {
-
+	downKeys.clear();
+	upKeys.clear();
 }
 
 void InputMgr::updateEvent(const sf::Event& ev)

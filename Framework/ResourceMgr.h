@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Singleton.h"
 
 template<typename T>
@@ -43,6 +44,14 @@ public:
 		resources.insert({ id,res });
 	}
 
+	void load(const std::vector<std::string>& ids)
+	{
+		for (const auto& id : ids)
+		{
+			load(id);
+		}
+	}
+
 	bool unload(const std::string& id)
 	{
 		auto it = resources.find(id);
@@ -54,6 +63,14 @@ public:
 		delete it->second;
 		resources.erase(it);
 		return true;
+	}
+
+	void unload(const std::vector<std::string>& ids)
+	{
+		for (const auto& id : ids)
+		{
+			bool success = unload(id);
+		}
 	}
 
 	T& get(const std::string& id)

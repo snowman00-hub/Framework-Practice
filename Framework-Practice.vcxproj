@@ -132,18 +132,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Framework\Bee.cpp" />
+    <ClCompile Include="Framework\Cloud.cpp" />
+    <ClCompile Include="Framework\Framework.cpp" />
     <ClCompile Include="Framework\InputMgr.cpp" />
+    <ClCompile Include="Framework\GameObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Framework\SpriteGo.cpp" />
+    <ClCompile Include="Framework\Scene.cpp" />
+    <ClCompile Include="Framework\SceneGame.cpp" />
+    <ClCompile Include="Framework\SceneMgr.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Framework\TextGo.cpp" />
+    <ClCompile Include="Framework\Utils.cpp" />
+    <ClCompile Include="Framework\Tree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Framework\Bee.h" />
+    <ClInclude Include="Framework\Cloud.h" />
+    <ClInclude Include="Framework\Framework.h" />
     <ClInclude Include="Framework\Defines.h" />
     <ClInclude Include="Framework\InputMgr.h" />
     <ClInclude Include="Framework\ResourceMgr.h" />
     <ClInclude Include="Framework\Singleton.h" />
+    <ClInclude Include="Framework\GameObject.h" />
+    <ClInclude Include="Framework\SpriteGo.h" />
+    <ClInclude Include="Framework\Scene.h" />
+    <ClInclude Include="Framework\SceneGame.h" />
+    <ClInclude Include="Framework\SceneMgr.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Framework\TextGo.h" />
+    <ClInclude Include="Framework\Utils.h" />
+    <ClInclude Include="Framework\Tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

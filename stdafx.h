@@ -13,6 +13,13 @@
 
 // FRAMEWORK
 #include "Defines.h"
+#include "Utils.h"
 #include "Singleton.h"
 #include "ResourceMgr.h"
 #include "InputMgr.h"
+#include "GameObject.h"
+#include "SpriteGo.h"
+#include "TextGo.h"
+#include "Scene.h"
+#include "SceneMgr.h"
+#include "Framework.h"
