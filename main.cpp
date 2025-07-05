@@ -3,9 +3,9 @@
 
 int main()
 {
-    FRAMEWORK.init(1920, 1080, "Timber!!");
+    FRAMEWORK.Init(1280, 720, "FrameWork");
     FRAMEWORK.Do();
-    FRAMEWORK.release();
+    FRAMEWORK.Release();
 
     return 0;
 }

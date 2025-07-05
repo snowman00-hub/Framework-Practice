@@ -1,6 +1,4 @@
 #pragma once
-#include "Singleton.h"
-
 class SceneMgr : public Singleton<SceneMgr>
 {
 	friend class Singleton<SceneMgr>;
@@ -9,22 +7,23 @@ protected:
 	SceneMgr() = default;
 	~SceneMgr() = default;
 
-	std::vector<Scene*> scenes;
+	std::unordered_map<SceneIds, Scene*> scenes;
 
-	SceneIds startScene = SceneIds::Game;
+	SceneIds startScene = SceneIds::Dev1;
 	SceneIds currentScene = SceneIds::None;
 	SceneIds nextScene = SceneIds::None;
 
 public:
-	void init();
-	void release();
+	void Init();
+	void Release();
 
-	Scene* getCurrentScene() { return scenes[(int)currentScene]; }
-	SceneIds getCurrentSceneId() const { return currentScene; }
-	void changeScene(SceneIds id);
+	Scene* GetCurrentScene() { return scenes[currentScene]; }
+	SceneIds GetCurrentSceneId() const { return currentScene; }
+	void ChangeScene(SceneIds id);
 
-	void update(float dt);
-	void draw(sf::RenderWindow& window);
+	void Update(float dt);
+	void Draw(sf::RenderWindow& window);
 };
 
-#define SCENE_MGR (SceneMgr::instance())
+#define SCENE_MGR (SceneMgr::Instance())
+

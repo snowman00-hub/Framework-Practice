@@ -1,53 +1,55 @@
 #include "stdafx.h"
 #include "SceneMgr.h"
-#include "SceneGame.h"
+#include "SceneDev1.h"
+#include "SceneDev2.h"
 
-void SceneMgr::init()
+void SceneMgr::Init()
 {
-	scenes.push_back(new SceneGame());
+	scenes[SceneIds::Dev1] = new SceneDev1();
+	scenes[SceneIds::Dev2] = new SceneDev2();
 
-	for (auto scene : scenes)
+	for (auto pair : scenes)
 	{
-		scene->init();
+		pair.second->Init();
 	}
 
 	currentScene = startScene;
-	scenes[(int)currentScene]->enter();
+	scenes[currentScene]->Enter();
 }
 
-void SceneMgr::release()
+void SceneMgr::Release()
 {
-	for (auto scene : scenes)
+	for (auto pair : scenes)
 	{
-		if (scene->Id == currentScene)
+		if (pair.second->Id == currentScene)
 		{
-			scene->exit();
+			pair.second->Exit();
 		}
-		scene->release();
-		delete scene;
+		pair.second->Release();
+		delete pair.second;
 	}
 	scenes.clear();
 }
 
-void SceneMgr::changeScene(SceneIds id)
+void SceneMgr::ChangeScene(SceneIds id)
 {
 	nextScene = id;
 }
 
-void SceneMgr::update(float dt)
+void SceneMgr::Update(float dt)
 {
 	if (nextScene != SceneIds::None)
 	{
-		scenes[(int)currentScene]->exit();
+		scenes[currentScene]->Exit();
 		currentScene = nextScene;
 		nextScene = SceneIds::None;
-		scenes[(int)currentScene]->enter();
+		scenes[currentScene]->Enter();
 	}
 
-	scenes[(int)currentScene]->update(dt);
+	scenes[currentScene]->Update(dt);
 }
 
-void SceneMgr::draw(sf::RenderWindow& window)
+void SceneMgr::Draw(sf::RenderWindow& window)
 {
-	scenes[(int)currentScene]->draw(window);
+	scenes[currentScene]->Draw(window);
 }

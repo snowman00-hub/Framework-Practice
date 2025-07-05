@@ -1,9 +1,8 @@
 #pragma once
 #include "Singleton.h"
-
 class Framework : public Singleton<Framework>
 {
-	friend class Singleton<Framework>;
+	friend Singleton<Framework>;
 
 protected:
 	Framework() = default;
@@ -20,32 +19,33 @@ protected:
 	float realTime = 0.f;
 	float realDeltaTime = 0.f;
 
-	std::vector<std::string> textureIds;
+	std::vector<std::string> texIds;
 	std::vector<std::string> fontIds;
 	std::vector<std::string> soundIds;
 
 public:
-	sf::RenderWindow& getWindow() { return window; }
+	sf::RenderWindow& GetWindow() { return window; }
 
-	sf::Vector2u getWindowSize() const { return window.getSize(); }
-	sf::Vector2f getWindowSizeF() const { return (sf::Vector2f)window.getSize(); }
-	sf::FloatRect getWindowBounds() const
+	sf::Vector2u GetWindowSize() const { return window.getSize(); }
+	sf::Vector2f GetWindowSizeF() const { return (sf::Vector2f)window.getSize(); }
+	sf::FloatRect GetWindowBounds() const
 	{
-		sf::Vector2f size = getWindowSizeF();
+		sf::Vector2f size = GetWindowSizeF();
 		return sf::FloatRect(0.f, 0.f, size.x, size.y);
 	}
 
-	float getTimeScale() const { return timeScale; }
-	void setTimeScale(float scale) { timeScale = scale; }
+	float GetTimeScale() const { return timeScale; }
+	void SetTimeScale(float scale) { timeScale = scale; }
 
-	float getTime() const { return time; }
-	float getDeltaTime() const { return deltaTime; }
-	float getRealTime() const { return realTime; }
-	float getRealDeltaTime() const { return realDeltaTime; }
+	float GetTime() const { return time; }
+	float GetDeltaTime() const { return deltaTime; }
+	float GetRealTime() const { return realTime; }
+	float GetRealDeltaTime() const { return realDeltaTime; }
 
-	virtual void init(int w, int h, const std::string& t);
+	virtual void Init(int w, int h, const std::string& t);
 	virtual void Do();
-	virtual void release();
+	virtual void Release();
 };
 
-#define FRAMEWORK (Framework::instance())
+#define FRAMEWORK (Framework::Instance())
+

@@ -6,79 +6,120 @@ Scene::Scene(SceneIds id)
 {
 }
 
-void Scene::init()
+void Scene::Init()
 {
 	for (auto obj : gameObjects)
 	{
-		obj->init();
+		obj->Init();
+	}
+
+	for (auto obj : objectsToAdd)
+	{
+		obj->Init();
 	}
 }
 
-void Scene::release()
+void Scene::Release()
 {
 	for (auto obj : gameObjects)
 	{
-		obj->release();
+		obj->Release();
 		delete obj;
 	}
 	gameObjects.clear();
 }
 
-void Scene::enter()
+void Scene::Enter()
 {
-	TEXTURE_MGR.load(textureIds);
-	FONT_MGR.load(fontIds);
-	SOUNDBUFFER_MGR.load(soundIds);
+	TEXTURE_MGR.Load(texIds);
+	FONT_MGR.Load(fontIds);
+	SOUNDBUFFER_MGR.Load(soundIds);
 
 	for (auto obj : gameObjects)
 	{
-		obj->reset();
+		obj->Reset();
+	}
+
+	for (auto obj : objectsToAdd)
+	{
+		obj->Reset();
 	}
 }
 
-void Scene::exit()
+void Scene::Exit()
 {
-	TEXTURE_MGR.unload(textureIds);
-	FONT_MGR.unload(fontIds);
-	SOUNDBUFFER_MGR.unload(soundIds);
+	TEXTURE_MGR.Unload(texIds);
+	FONT_MGR.Unload(fontIds);
+	SOUNDBUFFER_MGR.Unload(soundIds);
 }
 
-void Scene::update(float dt)
+void Scene::Update(float dt)
 {
 	for (auto obj : gameObjects)
 	{
-		obj->update(dt);
+		if (obj->GetActive())
+		{
+			obj->Update(dt);
+		}
 	}
 }
 
-void Scene::draw(sf::RenderWindow& window)
+void Scene::Draw(sf::RenderWindow& window)
+{
+	std::list<GameObject*> sortedObjects(gameObjects);
+
+	sortedObjects.sort(
+		[](const GameObject* a, const GameObject* b)
+		{
+			if (a->sortingLayer != b->sortingLayer) 
+			{
+				return  a->sortingLayer < b->sortingLayer;
+			}
+			return a->sortingOrder < b->sortingOrder;
+		}
+	);
+
+	for (auto obj : sortedObjects)
+	{
+		if (obj->GetActive())
+		{
+			obj->Draw(window);
+		}
+	}
+
+	for (GameObject* go : objectsToAdd)
+	{
+		if (std::find(gameObjects.begin(), gameObjects.end(), go) == gameObjects.end())
+		{
+			gameObjects.push_back(go);
+		}
+	}
+	objectsToAdd.clear();
+
+	for (GameObject* go : objectsToRemove)
+	{
+		gameObjects.remove(go);
+	}
+	objectsToRemove.clear();
+}
+
+GameObject* Scene::AddGameObject(GameObject* go)
+{
+	objectsToAdd.push_back(go);
+	return go;
+}
+
+void Scene::RemoveGameObject(GameObject* go)
+{
+	go->SetActive(false);
+	objectsToRemove.push_back(go);
+}
+
+GameObject* Scene::FindGameObject(const std::string& name)
 {
 	for (auto obj : gameObjects)
 	{
-		obj->draw(window);
-	}
-}
-
-GameObject* Scene::addGameObject(GameObject* go)
-{
-	if (std::find(gameObjects.begin(), gameObjects.end(), go) == gameObjects.end())
-	{
-		gameObjects.push_back(go);
-		return go;
-	}
-	return nullptr;
-}
-
-void Scene::removeGameObject(GameObject* go)
-{
-	gameObjects.remove(go);
-}
-
-GameObject* Scene::findGameObject(const std::string& name)
-{
-	for (auto obj : gameObjects)
-	{
-		if (obj->getName() == name)
+		if (obj->GetName() == name)
 		{
 			return obj;
 		}

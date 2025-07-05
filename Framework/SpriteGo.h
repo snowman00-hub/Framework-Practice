@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+
 class SpriteGo : public GameObject
 {
 protected:
@@ -7,22 +8,25 @@ protected:
 	std::string textureId;
 
 public:
-	SpriteGo(const std::string& texId = "", const std::string& name = "");
+	SpriteGo(const std::string& texPlayerId = "", const std::string& name = "");
 	~SpriteGo() override = default;
 
-	std::string getTextureId() const { return textureId; }
-	void setTextureId(const std::string& texId) { textureId = texId; }
+	const std::string& GetTextureId() const { return textureId; }
+	void SetTextureId(const std::string& texPlayerId) { textureId = texPlayerId; }
 
-	void setPosition(const sf::Vector2f& pos) override;
-	void setRotation(float r) override;
-	void setScale(const sf::Vector2f& s) override;
-	void setOrigin(const sf::Vector2f& o) override;
-	void setOrigin(Origins preset) override;
+	sf::Sprite& GetSprite() { return sprite; }
+	const sf::Sprite& GetSprite() const { return sprite; }
 
-	void init() override;
-	void release() override;
-	void reset() override;
-	void update(float dt) override;
-	void draw(sf::RenderWindow& window) override;
+	void SetPosition(const sf::Vector2f& pos) override;
+	void SetRotation(float rot) override;
+	void SetScale(const sf::Vector2f& s) override;
+	void SetOrigin(const sf::Vector2f& o) override;
+	void SetOrigin(Origins preset) override;
+
+	void Init() override;
+	void Release() override;
+	void Reset() override;
+	void Update(float dt) override;
+	void Draw(sf::RenderWindow& window) override;
 };
 

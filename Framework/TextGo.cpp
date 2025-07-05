@@ -1,76 +1,86 @@
 #include "stdafx.h"
 #include "TextGo.h"
 
-TextGo::TextGo(const std::string& Id, const std::string& name)
-	: GameObject(name), fontId(Id)
+TextGo::TextGo(const std::string& fontId, const std::string& name)
+	: GameObject(name), fontId(fontId)
 {
 }
 
-void TextGo::setCharSize(int size)
-{
-	text.setCharacterSize(size);
-	Utils::setOrigin(text, originPreset);
-}
-
-void TextGo::setString(const std::string& str)
+void TextGo::SetString(const std::string& str)
 {
 	text.setString(str);
-	Utils::setOrigin(text, originPreset);
+	Utils::SetOrigin(text, originPreset);
 }
 
-void TextGo::setPosition(const sf::Vector2f& pos)
+void TextGo::SetCharacterSize(unsigned int size)
+{
+	text.setCharacterSize(size);
+	Utils::SetOrigin(text, originPreset);
+}
+
+void TextGo::SetFillColor(const sf::Color& color)
+{
+	text.setFillColor(color);
+}
+
+std::string TextGo::GetString() const
+{
+	return text.getString();
+}
+
+void TextGo::SetPosition(const sf::Vector2f& pos)
 {
 	position = pos;
 	text.setPosition(pos);
 }
 
-void TextGo::setRotation(float rot)
+void TextGo::SetRotation(float rot)
 {
 	rotation = rot;
-	text.setRotation(rot);
+	text.setRotation(rotation);
 }
 
-void TextGo::setScale(const sf::Vector2f& s)
+void TextGo::SetScale(const sf::Vector2f& s)
 {
 	scale = s;
-	text.setScale(s);
+	text.setScale(scale);
 }
 
-void TextGo::setOrigin(const sf::Vector2f& o)
+void TextGo::SetOrigin(const sf::Vector2f& o)
 {
 	originPreset = Origins::Custom;
 	origin = o;
 	text.setOrigin(o);
 }
 
-void TextGo::setOrigin(Origins preset)
+void TextGo::SetOrigin(Origins preset)
 {
 	originPreset = preset;
 	if (originPreset != Origins::Custom)
 	{
-		origin = Utils::setOrigin(text, originPreset);
+		origin = Utils::SetOrigin(text, originPreset);
 	}
 }
 
-void TextGo::init()
+void TextGo::Init()
 {
 }
 
-void TextGo::release()
+void TextGo::Release()
 {
 }
 
-void TextGo::reset()
+void TextGo::Reset()
 {
-	text.setFont(FONT_MGR.get(fontId));
-	Utils::setOrigin(text, originPreset);
+ 	text.setFont(FONT_MGR.Get(fontId));
+	Utils::SetOrigin(text, originPreset);
 }
 
-void TextGo::update(float dt)
+void TextGo::Update(float dt)
 {
 }
 
-void TextGo::draw(sf::RenderWindow& window)
+void TextGo::Draw(sf::RenderWindow& window)
 {
 	if (active)
 	{

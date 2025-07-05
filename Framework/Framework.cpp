@@ -1,17 +1,19 @@
 #include "stdafx.h"
 #include "Framework.h"
 
-void Framework::init(int w, int h, const std::string& t)
+void Framework::Init(int w, int h, const std::string& t)
 {
-    window.create(sf::VideoMode(w, h), t);
+	window.create(sf::VideoMode(w, h), t);
 
-    TEXTURE_MGR.load(textureIds);
-    FONT_MGR.load(fontIds);
-    SOUNDBUFFER_MGR.load(soundIds);
+    // texIds, fontIds, soundIds
 
-    Utils::init();
-    InputMgr::init();
-    SCENE_MGR.init();
+	TEXTURE_MGR.Load(texIds);
+	FONT_MGR.Load(fontIds);
+	SOUNDBUFFER_MGR.Load(soundIds);
+
+    Utils::Init();
+	InputMgr::Init();
+	SCENE_MGR.Init();
 }
 
 void Framework::Do()
@@ -22,34 +24,34 @@ void Framework::Do()
         realDeltaTime = deltaTime = dt.asSeconds();
         deltaTime *= timeScale;
         time += deltaTime;
-        realTime += realDeltaTime;
+        realTime = realDeltaTime;
 
-        InputMgr::clear();
+        InputMgr::Clear();
         sf::Event event;
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-
-            InputMgr::updateEvent(event);
+            InputMgr::UpdateEvent(event);
         }
 
+        InputMgr::Update(deltaTime);
+
         // Update
-        InputMgr::update(deltaTime);
-        SCENE_MGR.update(deltaTime);
+        SCENE_MGR.Update(deltaTime);
 
         // Draw
         window.clear();
-        SCENE_MGR.draw(window);
+        SCENE_MGR.Draw(window);
         window.display();
     }
 }
 
-void Framework::release()
+void Framework::Release()
 {
-    SCENE_MGR.release();
+	SCENE_MGR.Release();
 
-    SOUNDBUFFER_MGR.unload(soundIds);
-    FONT_MGR.unload(fontIds);
-    TEXTURE_MGR.unload(textureIds);
+	SOUNDBUFFER_MGR.Unload(soundIds);
+	FONT_MGR.Unload(fontIds);
+	TEXTURE_MGR.Unload(texIds);
 }

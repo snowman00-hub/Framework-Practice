@@ -5,7 +5,10 @@ class Scene
 protected:
 	std::list<GameObject*> gameObjects;
 
-	std::vector<std::string> textureIds;
+	std::list<GameObject*> objectsToAdd;
+	std::list<GameObject*> objectsToRemove;
+
+	std::vector<std::string> texIds;
 	std::vector<std::string> fontIds;
 	std::vector<std::string> soundIds;
 
@@ -15,18 +18,28 @@ public:
 	Scene(SceneIds id);
 	virtual ~Scene() = default;
 
-	virtual void init();
-	virtual void release();
+	virtual void Init();
+	virtual void Release();
 
-	virtual void enter();
-	virtual void exit();
+	virtual void Enter();
+	virtual void Exit();
 
-	virtual void update(float dt);
-	virtual void draw(sf::RenderWindow& window);
+	virtual void Update(float dt);
+	virtual void Draw(sf::RenderWindow& window);
 
-	GameObject* addGameObject(GameObject* go);
-	void removeGameObject(GameObject* go);
+	GameObject* AddGameObject(GameObject* go);
+	void RemoveGameObject(GameObject* go);
 
-	GameObject* findGameObject(const std::string& name);
+	GameObject* FindGameObject(const std::string& name);
 };
 
+struct DrawOrderComparer
+{
+	bool operator()(const GameObject* a, const GameObject* b)
+	{
+		if (a->sortingLayer != b->sortingLayer) {
+			return  a->sortingLayer < b->sortingLayer;
+		}
+		return a->sortingOrder < b->sortingOrder;
+	}
+};

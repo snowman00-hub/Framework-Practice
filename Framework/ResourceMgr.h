@@ -1,15 +1,12 @@
 #pragma once
-#include <vector>
 #include "Singleton.h"
 
-template<typename T>
+template <typename T>
 class ResourceMgr : public Singleton<ResourceMgr<T>>
 {
 	friend Singleton<ResourceMgr<T>>;
 
 protected:
-	std::unordered_map<std::string, T*> resources;
-
 	ResourceMgr() = default;
 	virtual ~ResourceMgr()
 	{
@@ -23,10 +20,15 @@ protected:
 	ResourceMgr(const ResourceMgr&) = delete;
 	ResourceMgr* operator=(const ResourceMgr&) = delete;
 
-	static T empty;
+	std::unordered_map<std::string, T*> resources;
+
+	static T Empty;
 
 public:
-	bool load(const std::string& id)
+
+
+
+	bool Load(const std::string& id)
 	{
 		auto it = resources.find(id);
 		if (it != resources.end())
@@ -38,21 +40,15 @@ public:
 		bool success = res->loadFromFile(id);
 		if (!success)
 		{
+			delete res;
 			return false;
 		}
 
-		resources.insert({ id,res });
+		resources.insert({id, res});
+		return true;
 	}
 
-	void load(const std::vector<std::string>& ids)
-	{
-		for (const auto& id : ids)
-		{
-			load(id);
-		}
-	}
-
-	bool unload(const std::string& id)
+	bool Unload(const std::string& id)
 	{
 		auto it = resources.find(id);
 		if (it == resources.end())
@@ -65,28 +61,36 @@ public:
 		return true;
 	}
 
-	void unload(const std::vector<std::string>& ids)
+	void Load(const std::vector<std::string>& ids)
 	{
-		for (const auto& id : ids)
+		for (auto id : ids)
 		{
-			bool success = unload(id);
+			Load(id);
 		}
 	}
 
-	T& get(const std::string& id)
+	void Unload(const std::vector<std::string>& ids)
+	{
+		for (auto id : ids)
+		{
+			Unload(id);
+		}
+	}
+
+	T& Get(const std::string& id) 
 	{
 		auto it = resources.find(id);
 		if (it == resources.end())
 		{
-			return empty;
+			return Empty;
 		}
 		return *(it->second);
 	}
 };
 
 template<typename T>
-T ResourceMgr<T>::empty;
+T ResourceMgr<T>::Empty;
 
-#define TEXTURE_MGR (ResourceMgr<sf::Texture>::instance())
-#define FONT_MGR (ResourceMgr<sf::Font>::instance())
-#define SOUNDBUFFER_MGR (ResourceMgr<sf::SoundBuffer>::instance())
+#define TEXTURE_MGR (ResourceMgr<sf::Texture>::Instance())
+#define FONT_MGR (ResourceMgr<sf::Font>::Instance())
+#define SOUNDBUFFER_MGR (ResourceMgr<sf::SoundBuffer>::Instance())

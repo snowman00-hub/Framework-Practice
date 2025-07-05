@@ -1,64 +1,66 @@
 #include "stdafx.h"
 #include "SpriteGo.h"
 
-SpriteGo::SpriteGo(const std::string& texId, const std::string& name)
-	: GameObject(name), textureId(texId)
+SpriteGo::SpriteGo(const std::string& texPlayerId, const std::string& name)
+	: GameObject(name), textureId(texPlayerId)
 {
 }
 
-void SpriteGo::setPosition(const sf::Vector2f& pos)
+void SpriteGo::SetPosition(const sf::Vector2f& pos)
 {
 	position = pos;
-	sprite.setPosition(position);
+	sprite.setPosition(pos);
 }
 
-void SpriteGo::setRotation(float r)
+void SpriteGo::SetRotation(float rot)
 {
-	rotation = r;
+	rotation = rot;
 	sprite.setRotation(rotation);
 }
 
-void SpriteGo::setScale(const sf::Vector2f& s)
+void SpriteGo::SetScale(const sf::Vector2f& s)
 {
 	scale = s;
 	sprite.setScale(scale);
 }
 
-void SpriteGo::setOrigin(const sf::Vector2f& o)
+void SpriteGo::SetOrigin(const sf::Vector2f& o)
 {
 	originPreset = Origins::Custom;
 	origin = o;
 	sprite.setOrigin(o);
 }
 
-void SpriteGo::setOrigin(Origins preset)
+void SpriteGo::SetOrigin(Origins preset)
 {
 	originPreset = preset;
 	if (originPreset != Origins::Custom)
 	{
-		origin = Utils::setOrigin(sprite, originPreset);
+		origin = Utils::SetOrigin(sprite, originPreset);
 	}
+
 }
 
-void SpriteGo::init()
+void SpriteGo::Init()
 {
 }
 
-void SpriteGo::release()
+void SpriteGo::Release()
 {
 }
 
-void SpriteGo::reset()
+void SpriteGo::Reset()
 {
-	sprite.setTexture(TEXTURE_MGR.get(textureId));
-	Utils::setOrigin(sprite, originPreset);
+	sprite.setTexture(TEXTURE_MGR.Get(textureId));
+	Utils::SetOrigin(sprite, originPreset);
 }
 
-void SpriteGo::update(float dt)
+void SpriteGo::Update(float dt)
 {
+
 }
 
-void SpriteGo::draw(sf::RenderWindow& window)
+void SpriteGo::Draw(sf::RenderWindow& window)
 {
 	if (active)
 	{

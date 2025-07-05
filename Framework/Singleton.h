@@ -1,6 +1,6 @@
 #pragma once
 
-template<typename T>
+template <typename T>
 class Singleton
 {
 protected:
@@ -9,11 +9,12 @@ protected:
 
 	Singleton(const Singleton&) = delete;
 	Singleton& operator=(const Singleton&) = delete;
-
 public:
-	static T& instance()
+
+	static T& Instance()
 	{
 		static T instance;
 		return instance;
 	}
+
 };
